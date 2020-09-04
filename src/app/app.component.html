@@ -1,14 +1,2 @@
 <router-outlet></router-outlet>
-
-
-<input type="file" (change)="onFileChange($event)" multiple="false" />
-	<table class="sjs-table">
-		<tbody>
-      <tr *ngFor="let row of data">
-			<td *ngFor="let val of row">
-				{{val}}
-			</td>
-		</tr>
-    </tbody>
-	</table>
-	<button (click)="export()">Export!</button>
+<app-upload></app-upload>

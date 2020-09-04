@@ -1,0 +1,21 @@
+<section mat-card class="upload-wrapper">
+  <mat-card class="example-card" [ngClass]="fileOver ? 'file-over' : ''" appDragDrop (fileDropped)="teste($event)" (fileOver)="fileOver = $event">
+    <mat-card-content>
+      <fa-icon [icon]="upload" size="6x"></fa-icon>
+
+      <h3>arraste sua sua planilha</h3>
+      <h3>ou</h3>
+      <input
+        id="uplodInput"
+        class="ep-cursor-pointer"
+        type="file"
+        (change)="onFileChange($event)"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      />
+      <!-- <button (click)="export()">Export!</button> -->
+      <button mat-raised-button [color]="fileOver ? null : 'primary'" (click)="labelInput.click()">
+        <label #labelInput for="uplodInput" class="ep-cursor-pointer">procurar arquivo</label>
+      </button>
+    </mat-card-content>
+  </mat-card>
+</section>
