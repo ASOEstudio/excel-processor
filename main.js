@@ -11,7 +11,10 @@ function initWindow() {
     webPreferences: {
       nodeIntegration: true
     }
-  })
+  });
+
+  // Remove default menuBar
+  appWindow.setMenu(null);
 
   // Electron Build Path
   appWindow.loadURL(
@@ -27,10 +30,10 @@ function initWindow() {
 
   appWindow.on('closed', function () {
     appWindow = null
-  })
+  });
 }
 
-app.on('ready', initWindow)
+app.on('ready', initWindow);
 
 // Close when all windows are closed.
 app.on('window-all-closed', function () {
@@ -39,10 +42,10 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', function () {
   if (win === null) {
     initWindow()
   }
-})
+});
