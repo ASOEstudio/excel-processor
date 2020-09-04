@@ -13,7 +13,7 @@ import { DragDropModule } from 'src/app/directives/drag-drop/drag-drop.module';
     CommonModule,
 
     SharedModule,
-    DragDropModule
+    DragDropModule,
   ],
   exports: [UploadComponent],
 })

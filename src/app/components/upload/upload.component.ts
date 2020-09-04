@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faFileExcel, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import * as XLSX from 'xlsx';
 
@@ -17,9 +17,28 @@ export class UploadComponent implements OnInit {
   wopts: XLSX.WritingOptions = { bookType: 'xlsx', type: 'array' };
   fileName = 'SheetJS.xlsx';
 
-  // icon
-  upload = faUpload;
+  // icons
+  uploadIcon = faUpload;
+  excelFileIcon = faFileExcel;
+  deleteIcon = faTrash;
+
   fileOver = false;
+
+  filesBasicData: FileList;
+
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = [
+    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  ];
 
   constructor() { }
 
@@ -61,7 +80,18 @@ export class UploadComponent implements OnInit {
   }
 
 
-  teste(event): void {
-    console.log(event);
+  receiveFiles(event: FileList): void {
+    this.filesBasicData = event;
+  }
+
+  formatBytes(bytes, decimals): string {
+    if (bytes === 0) {
+      return '0 Bytes';
+    }
+    const k = 1024;
+    const dm = decimals <= 0 ? 0 : decimals || 2;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 }
