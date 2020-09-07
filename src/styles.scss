@@ -7,3 +7,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ep-cursor-pointer {
   cursor: pointer;
 }
+
+.ep-basic-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ep-flexible-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.mat-typography {
+  .ep-no-margin-bottom {
+    margin-bottom: unset;
+  }
+
+  .ep-big-button {
+    font-size: 1.25rem;
+    line-height: 3.5rem;
+  }
+}
+
+.ep-dont-select {
+  user-select: none;
+}

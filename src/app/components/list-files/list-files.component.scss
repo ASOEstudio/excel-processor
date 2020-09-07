@@ -1,0 +1,42 @@
+.list-files-wrapper {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.disabled {
+  opacity: .25;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-files {
+  margin-top: .35rem;
+}
+
+.card-items {
+  display: flex;
+  align-items: center;
+
+}
+.info-container {
+  width: 100%;
+  margin: 0 0.5rem;
+
+  p {
+    margin-bottom: unset;
+  }
+
+  .second-line {
+    display: flex;
+    justify-content: space-between;
+
+    .margin-right {
+      margin-right: 1.5rem;
+    }
+  }
+}
+
+.next-step {
+  margin-top: 1rem;
+}

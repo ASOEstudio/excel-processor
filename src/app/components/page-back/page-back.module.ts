@@ -1,24 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { PageBackComponent } from './page-back.component';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 
 @NgModule({
+  declarations: [PageBackComponent],
   imports: [
     CommonModule,
 
     FontAwesomeModule,
     MatButtonModule,
-    MatCardModule,
   ],
-  exports: [
-    FontAwesomeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-  ]
+  exports: [PageBackComponent],
 })
-export class SharedModule { }
+export class PageBackModule { }

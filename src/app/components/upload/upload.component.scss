@@ -2,6 +2,12 @@
 	width: 500px;
   position: relative;
 
+  &.disabled {
+    opacity: .25;
+    pointer-events: none;
+    user-select: none;
+  }
+
   input {
     opacity: 0;
     position: absolute;
@@ -29,20 +35,6 @@
   padding: 2rem;
 }
 
-.card-items {
-  display: flex;
-  align-items: center;
-}
-.info-container {
-  width: 100%;
-  margin: auto 0.5rem;
-
-  p {
-    margin-bottom: unset;
-  }
-
-  .second-line {
-    display: flex;
-    justify-content: space-between;
-  }
+.opacity-75 {
+  opacity: .75;
 }

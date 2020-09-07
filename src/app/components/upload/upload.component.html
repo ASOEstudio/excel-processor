@@ -1,36 +1,16 @@
-<section class="upload-wrapper">
+<section class="upload-wrapper ep-dont-select" [ngClass]="disabledUpload.cadastradores && disabledUpload.liberados ? 'disabled' : ''">
   <mat-card class="card-transition padding-xl align-center" [ngClass]="fileOver ? 'file-over' : ''"
     appDragDrop (fileDropped)="receiveFiles($event)" (fileOver)="fileOver = $event">
     <mat-card-content>
-      <h2><fa-icon [icon]="uploadIcon" size="4x"></fa-icon></h2>
-      <h2>arraste aqui sua planilha</h2>
-      <h3>ou</h3>
-      <input id="uplodInput" class="ep-cursor-pointer" type="file" (change)="onFileChange($event)"
+      <h2><fa-icon class="opacity-75" [icon]="uploadIcon" size="4x"></fa-icon></h2>
+      <h2 class="ep-no-margin-bottom">arraste aqui sua planilha</h2>
+      <h2>ou</h2>
+      <input id="uplodInput" class="ep-cursor-pointer" type="file" multiple (change)="receiveFiles($event, true)"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-      <!-- <button (click)="export()">Export!</button> -->
-      <button mat-raised-button color="primary" [disabled]="fileOver" (click)="labelInput.click()">
+      <button mat-raised-button color="primary" (click)="labelInput.click()"
+        [disabled]="fileOver || disabledUpload.cadastradores && disabledUpload.liberados">
         <label #labelInput for="uplodInput" class="ep-cursor-pointer">procurar arquivo</label>
       </button>
     </mat-card-content>
   </mat-card>
-
-  <ng-container *ngIf="filesBasicData">
-    <mat-card *ngFor="let file of filesBasicData">
-      <mat-card-content class="card-items">
-        <div class="icon-container">
-          <fa-icon [icon]="excelFileIcon" size="3x"></fa-icon>
-        </div>
-        <div class="info-container">
-          <p>{{ file.name }}</p>
-          <div class="second-line">
-            <p>{{ file.lastModified | date:' dd/MM/yy - hh:mm:ss' }}</p>
-            <p>{{ formatBytes(file.size) }}</p>
-          </div>
-        </div>
-        <button mat-icon-button>
-          <fa-icon [icon]="deleteIcon" size="lg"></fa-icon>
-        </button>
-      </mat-card-content>
-    </mat-card>
-  </ng-container>
 </section>

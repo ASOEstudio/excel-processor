@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
+import { Directive, Output, EventEmitter, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appDragDrop]'
@@ -32,9 +32,8 @@ export class DragDropDirective {
     evt.preventDefault();
     evt.stopPropagation();
     this.fileOver.emit(false);
-    const files = evt.dataTransfer.files;
-    if (files.length > 0) {
-      this.fileDropped.emit(files);
+    if (evt.dataTransfer.files.length > 0) {
+      this.fileDropped.emit(evt.dataTransfer);
     }
   }
 }

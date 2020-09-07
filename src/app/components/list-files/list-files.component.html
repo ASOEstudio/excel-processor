@@ -1,0 +1,41 @@
+<section class="list-files-wrapper">
+  <ng-container *ngFor="let file of filesReceived; let i = index">
+    <mat-card class="card-files" *ngIf="file?.fileInfo?.name">
+      <mat-card-content class="card-items">
+        <div class="icon-container">
+          <fa-icon [icon]="excelIcon" size="3x"></fa-icon>
+        </div>
+        <div class="info-container">
+          <p>{{ file?.fileInfo?.name ? file.fileInfo.name : 'aguardando arquivo' }}</p>
+          <div class="second-line" *ngIf="file?.fileInfo?.name">
+            <p class="margin-right">{{ file.fileInfo.lastModified | date:' dd/MM/yy - hh:mm:ss' }}</p>
+            <p>{{ formatBytes(file.fileInfo.size) }}</p>
+          </div>
+        </div>
+        <button mat-icon-button *ngIf="file?.fileInfo?.name" (click)="removeItem(i, file)">
+          <fa-icon [icon]="deleteIcon" size="lg"></fa-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+  <!-- cards placeholder -->
+  <mat-card class="card-files disabled" *ngIf="!requiredFiles.cadastradores">
+    <mat-card-content class="card-items">
+      <div class="icon-container"> <fa-icon [icon]="fileIcon" size="3x"></fa-icon> </div>
+      <div class="info-container"> <p>AGUARDANDO ARQUIVO !</p>
+        <div class="second-line"> <p>cadastro realizado por cadastradores de NF</p> </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="card-files disabled" *ngIf="!requiredFiles.liberados">
+    <mat-card-content class="card-items">
+      <div class="icon-container"> <fa-icon [icon]="fileIcon" size="3x"></fa-icon> </div>
+      <div class="info-container"> <p>AGUARDANDO ARQUIVO !</p>
+        <div class="second-line"> <p>valor liberados</p> </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <button mat-raised-button color="primary" [disabled]="!requiredFiles.cadastradores || !requiredFiles.liberados"
+    class="next-step ep-big-button" [routerLink]="['process-excel']">processar!</button>
+</section>

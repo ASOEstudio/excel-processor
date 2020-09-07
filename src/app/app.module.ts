@@ -5,7 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { UploadModule } from './components/upload/upload.module';
+import { ReceivesFilesModule } from './pages/receives-files/receives-files.module';
+import { ProcessExcelModule } from './pages/process-excel/process-excel.module';
+import { AuxiliaryService } from './services/auxiliary.service';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,9 +18,11 @@ import { UploadModule } from './components/upload/upload.module';
     AppRoutingModule,
     BrowserAnimationsModule,
 
-    UploadModule,
+    ReceivesFilesModule,
+    ProcessExcelModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [AuxiliaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
