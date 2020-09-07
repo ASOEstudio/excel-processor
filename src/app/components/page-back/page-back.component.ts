@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-page-back',
@@ -11,19 +10,14 @@ import { Location } from '@angular/common';
 export class PageBackComponent implements OnInit {
 
   @Input() pageDescription: string;
+  @Input() route: string;
 
   public faArrowLeft = faArrowLeft;
   public hoverbutton = false;
 
-  constructor(
-    private location: Location,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  back(): void {
-    this.location.back();
   }
 
 }

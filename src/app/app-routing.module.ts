@@ -5,12 +5,10 @@ import { ReceivesFilesComponent } from './pages/receives-files/receives-files.co
 import { ProcessExcelComponent } from './pages/process-excel/process-excel.component';
 
 const routes: Routes = [
-  { path: '',
-    component: ReceivesFilesComponent },
-  { path: 'process-excel',
-    component: ProcessExcelComponent },
-  { path: '**',
-    redirectTo: '' },
+  { path: '', redirectTo: 'receives-files', pathMatch: 'full' },
+  { path: 'receives-files', component: ReceivesFilesComponent },
+  { path: 'process-excel', component: ProcessExcelComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
