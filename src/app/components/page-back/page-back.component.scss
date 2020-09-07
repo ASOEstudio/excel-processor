@@ -1,0 +1,16 @@
+.page-back-wrapper {
+  display: flex;
+  align-items: center;
+
+}
+
+.description {
+  margin-bottom: unset;
+  margin-left: 1rem;
+  transform: scaleY(0);
+  transition: transform ease-in-out .05s;
+
+  &.show {
+    transform: scaleY(1);
+  }
+}

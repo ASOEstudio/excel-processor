@@ -1,0 +1,16 @@
+<section class="upload-wrapper ep-dont-select" [ngClass]="disabledUpload.cadastradores && disabledUpload.liberados ? 'disabled' : ''">
+  <mat-card class="card-transition padding-xl align-center" [ngClass]="fileOver ? 'file-over' : ''"
+    appDragDrop (fileDropped)="receiveFiles($event)" (fileOver)="fileOver = $event">
+    <mat-card-content>
+      <h2><fa-icon class="opacity-75" [icon]="uploadIcon" size="4x"></fa-icon></h2>
+      <h2 class="ep-no-margin-bottom">arraste aqui sua planilha</h2>
+      <h2>ou</h2>
+      <input id="uplodInput" class="ep-cursor-pointer" type="file" multiple (change)="receiveFiles($event, true)"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+      <button mat-raised-button color="primary" (click)="labelInput.click()"
+        [disabled]="fileOver || disabledUpload.cadastradores && disabledUpload.liberados">
+        <label #labelInput for="uplodInput" class="ep-cursor-pointer">procurar arquivo</label>
+      </button>
+    </mat-card-content>
+  </mat-card>
+</section>

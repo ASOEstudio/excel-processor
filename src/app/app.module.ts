@@ -3,16 +3,26 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ReceivesFilesModule } from './pages/receives-files/receives-files.module';
+import { ProcessExcelModule } from './pages/process-excel/process-excel.module';
+import { AuxiliaryService } from './services/auxiliary.service';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+
+    ReceivesFilesModule,
+    ProcessExcelModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [AuxiliaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
