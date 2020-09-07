@@ -1,4 +1,4 @@
-<section class="upload-wrapper ep-dont-select" [ngClass]="disabledUpload.cadastradores && disabledUpload.liberados ? 'disabled' : ''">
+<section class="upload-wrapper" [ngClass]="disabledUpload.cadastradores && disabledUpload.liberados ? 'disabled' : ''">
   <mat-card class="card-transition padding-xl align-center" [ngClass]="fileOver ? 'file-over' : ''"
     appDragDrop (fileDropped)="receiveFiles($event)" (fileOver)="fileOver = $event">
     <mat-card-content>
