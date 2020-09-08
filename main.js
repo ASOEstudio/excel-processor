@@ -6,12 +6,18 @@ let appWindow
 
 function initWindow() {
   appWindow = new BrowserWindow({
+    show: false,
+    backgroundColor: '#303030',
     width: 1280,
     height: 800,
     webPreferences: {
       nodeIntegration: true
     }
   });
+
+  // atrasa apresentação da tela até que esteja carregada
+  // appWindow.once('ready-to-show', () => { appWindow.show() });
+  appWindow.webContents.on('did-finish-load', () => { appWindow.show() });
 
   // Remove default menuBar
   appWindow.setMenu(null);

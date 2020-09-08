@@ -1,0 +1,24 @@
+.log-box-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow-y: hidden;
+  height: 110px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 60px;
+    width: 100%;
+    background: linear-gradient(#303030, transparent);
+    z-index: 1;
+  }
+
+  p {
+    margin: .5rem 0;
+    font-weight: lighter;
+  }
+}

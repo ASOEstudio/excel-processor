@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ProcessExcelComponent } from './process-excel.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PageBackModule } from 'src/app/components/page-back/page-back.module';
+import { LogBoxModule } from 'src/app/components/log-box/log-box.module';
 
 
 
@@ -15,7 +16,8 @@ import { PageBackModule } from 'src/app/components/page-back/page-back.module';
     RouterModule,
 
     SharedModule,
-    PageBackModule
+    PageBackModule,
+    LogBoxModule,
   ],
   exports: [ProcessExcelComponent]
 })

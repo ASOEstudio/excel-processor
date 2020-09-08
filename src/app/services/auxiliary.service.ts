@@ -15,9 +15,14 @@ export class AuxiliaryService {
   // liberados
   public liberados$: Observable<FileInfo>;
   protected subjLiberados: BehaviorSubject<FileInfo>;
+  // log
+  public log$: Observable<string>;
+  protected subjLog: BehaviorSubject<string>;
 
   protected filesRead: RequiredFiles = { cadastradores: false, liberados: false };
-
+  protected cadastradoresData: any[][];
+  protected liberadosData: any[][];
+  protected cpfCadastradores: string[] = [];
 
   constructor(
     private snackBar: MatSnackBar
@@ -26,12 +31,18 @@ export class AuxiliaryService {
     this.cadastradores$ = this.subjCadastradores.asObservable();
     this.subjLiberados = new BehaviorSubject<FileInfo>({} as FileInfo);
     this.liberados$ = this.subjLiberados.asObservable();
+    this.subjLog = new BehaviorSubject<string>('');
+    this.log$ = this.subjLog.asObservable();
     // determina se os arquivos necessários já foram carregados
-    this.cadastradores$.subscribe(res => this.filesRead.cadastradores = res.fileInfo?.name ? true : false);
-    this.liberados$.subscribe(res => this.filesRead.liberados = res.fileInfo?.name ? true : false);
+    this.cadastradores$.subscribe(res => {
+      this.cadastradoresData = res.sheet;
+      this.filesRead.cadastradores = res.fileInfo?.name ? true : false; });
+    this.liberados$.subscribe(res => {
+      this.liberadosData = res.sheet;
+      this.filesRead.liberados = res.fileInfo?.name ? true : false; });
   }
 
-  prossessFiles(data: DataTransfer | any): void {
+  public prossessFiles(data: DataTransfer | any): void {
     const files: File[] = data.files;
     if (files.length > 2) { this.setSnackbar('apenas duas planilhas são permitida'); }
     const excelFiles: File[] = [];
@@ -44,7 +55,7 @@ export class AuxiliaryService {
     if (excelFiles.length > 0) { this.prossessExcel(excelFiles); }
   }
 
-  prossessExcel(files: File[]): void {
+  protected prossessExcel(files: File[]): void {
     if (!this.filesRead.cadastradores || !this.filesRead.liberados) {
       for (const file of files) {
         // wire up file reader
@@ -65,7 +76,7 @@ export class AuxiliaryService {
     } else { this.setSnackbar('já temos as planilhas necessárias'); }
   }
 
-  handleSheetType(file: File, data: any[][]): void {
+  protected handleSheetType(file: File, data: any[][]): void {
     if (this.sheetValidation(data) === 'cadastradores') {
       if (!this.filesRead.cadastradores) {
         this.subjCadastradores.next(
@@ -79,7 +90,7 @@ export class AuxiliaryService {
     } else { this.setSnackbar(`planilha "${file.name}" não é válida`); }
   }
 
-  sheetValidation(sheet: any[][]): 'cadastradores' | 'liberados' | null {
+  protected sheetValidation(sheet: any[][]): 'cadastradores' | 'liberados' | null {
     const sheetHeaders = sheet[0];
     const headers = JSON.parse(JSON.stringify(requiredHeaders));
     sheetHeaders.forEach( header => headers[header] = true);
@@ -88,16 +99,58 @@ export class AuxiliaryService {
     } else { return null; }
   }
 
-  removeFile(fileType: 'cadastradores' | 'liberados'): void {
+  public removeFile(fileType: 'cadastradores' | 'liberados'): void {
     if (fileType === 'cadastradores') { this.subjCadastradores.next({} as FileInfo);
     } else if (fileType === 'liberados') { this.subjLiberados.next({} as FileInfo); }
   }
 
-  setSnackbar(message: string): void {
+  public setSnackbar(message: string): void {
     this.snackBar.open(message, null,
       { duration: 4000, horizontalPosition: 'center', verticalPosition: 'top' });
   }
 
+  public addLogLine(logLine: string): void {
+    this.subjLog.next(logLine);
+  }
+
+  public initProcessingFlow(): void {
+    this.addLogLine('inicia o processamento das planilhas');
+    // remove linhas em branco Cadastradores
+    this.addLogLine('remove linhas em branco da planilha de Cadastradores');
+    const endLineCadastradores = this.cadastradoresData[0].length - 1;
+    let contCadastradores = 0;
+    const linesRemoveCadastradores: number[] = [];
+    this.cadastradoresData.forEach( (line: any[], i) => { if (!line[endLineCadastradores]) { linesRemoveCadastradores.push(i); } });
+    linesRemoveCadastradores.forEach( indexNum => {
+      this.cadastradoresData.splice(indexNum - contCadastradores, 1);
+      ++contCadastradores;
+    });
+    // remove linhas em branco Liberados
+    this.addLogLine('remove linhas em branco da planilha de Liberados');
+    const endLineLiberados = this.liberadosData[0].length - 1;
+    let contLiberados = 0;
+    const linesRemoveLiberados: number[] = [];
+    this.liberadosData.forEach( (line: any[], i) => { if (!line[endLineLiberados]) { linesRemoveLiberados.push(i); } });
+    linesRemoveLiberados.forEach( indexNum => {
+      this.liberadosData.splice(indexNum - contLiberados, 1);
+      ++contLiberados;
+    });
+    this.getCpf();
+  }
+
+  protected getCpf(): void {
+    this.addLogLine('identifica cpf de cadastradores');
+    console.log(this.cadastradoresData, this.liberadosData);
+    const indexCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
+    console.log(indexCpf);
+    this.cadastradoresData.forEach( (line: any[], i) => {
+      if (i > 0 && !this.cpfCadastradores.find(item => item === line[indexCpf])) { this.cpfCadastradores.push(line[indexCpf]); }
+    });
+  }
+  // protected getNotaFiscal(): void {
+  //   this.addLogLine('identificando todas os números de notas fiscais cadastradas');
+  //   const
+  // }
   // export(): void {
   //   /* generate worksheet */
   //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
@@ -109,6 +162,7 @@ export class AuxiliaryService {
   //   /* save to file */
   //   XLSX.writeFile(wb, this.fileName);
   // }
+
 }
 
 export const requiredHeaders = {

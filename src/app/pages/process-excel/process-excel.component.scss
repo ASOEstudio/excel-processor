@@ -1,8 +1,15 @@
 .process-excel-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .loading {
   flex-direction: column;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

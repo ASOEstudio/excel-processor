@@ -1,7 +1,8 @@
 <section class="process-excel-wrapper ep-flexible-wrapper">
   <app-page-back [pageDescription]="'receber arquivos'" [route]="'/receives-files'"></app-page-back>
-  <div class="loading ep-basic-wrapper">
+  <div class="loading">
     <h1>processando arquivos ...</h1>
     <mat-spinner [color]="'warn'" [diameter]="50"></mat-spinner>
   </div>
+  <app-log-box></app-log-box>
 </section>

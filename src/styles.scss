@@ -35,3 +35,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ep-dont-select {
   user-select: none;
 }
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fadein {
+  animation: fadein 1s;
+}
