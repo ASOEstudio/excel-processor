@@ -9,11 +9,7 @@ import { AuxiliaryService } from 'src/app/services/auxiliary.service';
 export class LogBoxComponent implements OnInit, OnDestroy {
 
   public itemsList: string[] = [];
-  contador = 0;
-
-  lista = ['primeira coisa que vem na cabeça', 'isso ai mano', 'vamo ver se funciona essa parada', 'acho que vai ficar top',
-    'da pra deixar as paradas subindo e desfocar a borada', 'ir ocultando na verdade', 'tem que ver como vai ficar', 'se der pra colocar transparente melhor'];
-
+  public expanded = false;
   constructor(
     private auxiliary: AuxiliaryService
   ) { }
