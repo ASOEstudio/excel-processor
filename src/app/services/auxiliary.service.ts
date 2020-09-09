@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,18 @@ export class AuxiliaryService {
   // log
   public log$: Observable<string>;
   protected subjLog: BehaviorSubject<string>;
+  // log
+  public result$: Observable<SheetMatch[]>;
+  protected subjResult: BehaviorSubject<SheetMatch[]>;
 
   protected filesRead: RequiredFiles = { cadastradores: false, liberados: false };
   protected cadastradoresData: any[][];
   protected liberadosData: any[][];
-  protected cpfCadastradores: string[] = [];
+  protected notasCpf: SheetMatch[] = [];
 
   constructor(
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
   ) {
     this.subjCadastradores = new BehaviorSubject<FileInfo>({} as FileInfo);
     this.cadastradores$ = this.subjCadastradores.asObservable();
@@ -33,6 +38,8 @@ export class AuxiliaryService {
     this.liberados$ = this.subjLiberados.asObservable();
     this.subjLog = new BehaviorSubject<string>('');
     this.log$ = this.subjLog.asObservable();
+    this.subjResult = new BehaviorSubject<SheetMatch[]>([]);
+    this.result$ = this.subjResult.asObservable();
     // determina se os arquivos necessários já foram carregados
     this.cadastradores$.subscribe(res => {
       this.cadastradoresData = res.sheet;
@@ -95,7 +102,7 @@ export class AuxiliaryService {
     const headers = JSON.parse(JSON.stringify(requiredHeaders));
     sheetHeaders.forEach( header => headers[header] = true);
     if (headers['Número da Nota'] && headers['CPF Doador/Cadastrador'] && headers['CNPJ Estabelecimento']) { return 'cadastradores';
-    } else if (headers.No || headers['No.'] && headers['CNPJ emit.'] || headers['CNPJ emit'] && headers.Créditos) { return 'liberados';
+    } else if (headers.No || headers['No.'] && headers['CNPJ emit.'] || headers['CNPJ emit'] && headers.Créditos && headers['Situação do Crédito']) { return 'liberados';
     } else { return null; }
   }
 
@@ -135,22 +142,75 @@ export class AuxiliaryService {
       this.liberadosData.splice(indexNum - contLiberados, 1);
       ++contLiberados;
     });
-    this.getCpf();
+    // this.sortNotasByCpf();
+    this.matchSheets();
   }
 
-  protected getCpf(): void {
-    this.addLogLine('identifica cpf de cadastradores');
-    console.log(this.cadastradoresData, this.liberadosData);
-    const indexCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
-    console.log(indexCpf);
-    this.cadastradoresData.forEach( (line: any[], i) => {
-      if (i > 0 && !this.cpfCadastradores.find(item => item === line[indexCpf])) { this.cpfCadastradores.push(line[indexCpf]); }
-    });
-  }
-  // protected getNotaFiscal(): void {
-  //   this.addLogLine('identificando todas os números de notas fiscais cadastradas');
-  //   const
+  // protected sortNotasByCpf(): void {
+  //   this.addLogLine('identifica cpf de cadastradores');
+  //   const indexCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
+  //   const indexNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
+  //   const indexCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
+  //   this.cadastradoresData.forEach( (line, i) => {
+  //     if (i > 0) {
+  //       if (!this.notasCpf.find( item => item.cpf === line[indexCpf])) {
+  //         this.notasCpf.push({ cpf: line[indexCpf], dataNf: [] });
+  //       }
+  //       this.notasCpf.forEach( item => { if (item.cpf === line[indexCpf]) {
+  //         item.dataNf.push({ numNota: line[indexNumNota], cnpjEstab: line[indexCnpjEstab]}); }
+  //       });
+  //     }
+  //   });
+  //   this.addLogLine('separa notas fiscais por cpf');
+  //   // console.log('vamo la', this.notasCpf);
+  //   this.matchSheets();
+
   // }
+
+  protected matchSheets(): void {
+    console.log('passa no match sheets');
+    this.addLogLine('começa a relacionar as planilhas');
+    // liberados
+    const iNo = this.liberadosData[0].indexOf('No.') !== -1 ?
+    this.liberadosData[0].indexOf('No.') : this.liberadosData[0].indexOf('No');
+    const iCnpjEmit = this.liberadosData[0].indexOf('CNPJ emit') !== -1 ?
+    this.liberadosData[0].indexOf('CNPJ emit') : this.liberadosData[0].indexOf('CNPJ emit.');
+    const iCreditos = this.liberadosData[0].indexOf('Créditos');
+    const iSitCred = this.liberadosData[0].indexOf('Situação do Crédito');
+    const iEmitente = this.liberadosData[0].indexOf('Emitente');
+    // cadastradores
+    const iCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
+    const iNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
+    const iCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
+
+    this.cadastradoresData.forEach( (cadLin, i) => {
+      if (i > 0) {
+        const libLin =
+        this.liberadosData.find(line => line[iNo] === cadLin[iNumNota] && line[iCnpjEmit] === cadLin[iCnpjEstab]);
+        if (libLin) {
+          this.addLogLine(`número da nota: "${cadLin[iNumNota]}" e CNPJ: "${cadLin[iCnpjEstab]}" relacionados`);
+          console.log('encontrado');
+          if (!this.notasCpf.find( line => line.cpf === cadLin[iCpf])) {
+            this.notasCpf.push({ cpf: cadLin[iCpf], dataNf: [] });
+          }
+          this.notasCpf.forEach( item => { if (item.cpf === cadLin[iCpf]) {
+            item.dataNf.push(
+              { numNota: cadLin[iNumNota], cnpjEstab: cadLin[iCnpjEstab], emitente: libLin[iEmitente],
+                sitCred: libLin[iSitCred], credito: libLin[iCreditos] }); }
+            });
+        } else {
+          console.log('não encontrou', cadLin);
+          this.addLogLine(`número da nota: "${cadLin[iNumNota]}" e CNPJ: "${cadLin[iCnpjEstab]}" não relacionados`);
+        }
+      }
+    });
+    console.log(this.notasCpf);
+    this.addLogLine('termina processamento das planilhas');
+    this.subjResult.next(this.notasCpf);
+    this.addLogLine('redireciona para os resultados');
+    this.router.navigate(['/result-process']);
+  }
+
   // export(): void {
   //   /* generate worksheet */
   //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
@@ -198,4 +258,17 @@ export interface FileInfo {
 export interface RequiredFiles {
   cadastradores: boolean;
   liberados: boolean;
+}
+
+export interface SheetMatch {
+  cpf: string;
+  dataNf: DataNf[];
+}
+
+export interface DataNf {
+  numNota?: number;
+  cnpjEstab?: string;
+  credito?: number;
+  sitCred?: string;
+  emitente?: string;
 }

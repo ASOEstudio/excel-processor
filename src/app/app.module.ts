@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReceivesFilesModule } from './pages/receives-files/receives-files.module';
 import { ProcessExcelModule } from './pages/process-excel/process-excel.module';
 import { AuxiliaryService } from './services/auxiliary.service';
+import { ResultProcessModule } from './pages/result-process/result-process.module';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -20,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
     ReceivesFilesModule,
     ProcessExcelModule,
+    ResultProcessModule,
     MatSnackBarModule,
   ],
   providers: [AuxiliaryService],
