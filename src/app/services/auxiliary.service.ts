@@ -211,6 +211,11 @@ export class AuxiliaryService {
     this.router.navigate(['/result-process']);
   }
 
+  public removeResults(): void {
+    this.notasCpf = [] as SheetMatch[];
+    this.subjResult.next([]);
+  }
+
   // export(): void {
   //   /* generate worksheet */
   //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);

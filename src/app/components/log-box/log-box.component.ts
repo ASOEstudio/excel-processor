@@ -20,7 +20,6 @@ export class LogBoxComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.itemsList.length = 0;
-    this.auxiliary.addLogLine('');
   }
 
 }
