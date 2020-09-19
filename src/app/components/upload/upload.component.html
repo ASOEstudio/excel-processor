@@ -1,5 +1,5 @@
 <section class="upload-wrapper" [ngClass]="disabledUpload.cadastradores && disabledUpload.liberados ? 'disabled' : ''">
-  <mat-card class="card-transition padding-xl align-center" [ngClass]="fileOver ? 'file-over' : ''"
+  <mat-card class="card-transition padding-xl align-center" [ngClass]="fileOver ? 'file-over warn-color' : ''"
     appDragDrop (fileDropped)="receiveFiles($event)" (fileOver)="fileOver = $event">
     <mat-card-content>
       <h2><fa-icon class="opacity-75" [icon]="uploadIcon" size="4x"></fa-icon></h2>

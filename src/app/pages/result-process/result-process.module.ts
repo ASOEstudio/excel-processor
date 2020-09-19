@@ -4,6 +4,8 @@ import { ResultProcessComponent } from './result-process.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+
+import { SharedModule } from 'src/app/shared/shared.module';
 import { PageBackModule } from 'src/app/components/page-back/page-back.module';
 
 
@@ -14,6 +16,8 @@ import { PageBackModule } from 'src/app/components/page-back/page-back.module';
 
     MatTabsModule,
     MatTableModule,
+
+    SharedModule,
     PageBackModule,
   ],
   exports: [ResultProcessComponent],

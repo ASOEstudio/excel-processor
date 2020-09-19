@@ -3,6 +3,21 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.primary-color {
+  background-color: #7b1fa2;
+
+  &.darken {
+    background-color: #512e57;
+  }
+}
+
+.warn-color {
+  background-color: #f44336;
+}
+
+.accent-color {
+  background-color: #69f0ae;
+}
 
 .ep-cursor-pointer {
   cursor: pointer;
@@ -30,11 +45,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 1.25rem;
     line-height: 3.5rem;
   }
+
+  .ep-text-align-right {
+    text-align: right;
+  }
+}
+
+.mat-tab-group .mat-ink-bar {
+  height: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .ep-dont-select {
   user-select: none;
 }
+
+.margin-top-bottom {
+  margin: 1rem 0;
+}
+
 
 @keyframes fadein {
   from { opacity: 0; }
@@ -43,4 +73,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .fadein {
   animation: fadein 1s;
+}
+
+.mat-tab-body-content {
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: lighten(#424242, 10%);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #69f0ae;
+    border-radius: 30px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #bb17d8;
+  }
 }

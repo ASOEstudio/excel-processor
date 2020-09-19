@@ -1,4 +1,17 @@
 main {
   height: calc(100vh - 2rem);
   padding: 1rem;
+  overflow: hidden;
+}
+
+.copy-rights {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  opacity: .25;
+  transition: opacity ease-in-out .5s;
+
+  &:hover {
+    opacity: 1;
+  }
 }

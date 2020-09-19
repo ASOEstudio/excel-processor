@@ -23,6 +23,16 @@ export class AuxiliaryService {
   public result$: Observable<SheetMatch[]>;
   protected subjResult: BehaviorSubject<SheetMatch[]>;
 
+  // index
+  iNo: number;
+  iCnpjEmit: number;
+  iCreditos: number;
+  iSitCred: number;
+  iEmitente: number;
+  iCpf: number;
+  iNumNota: number;
+  iCnpjEstab: number;
+
   protected filesRead: RequiredFiles = { cadastradores: false, liberados: false };
   protected cadastradoresData: any[][];
   protected liberadosData: any[][];
@@ -142,73 +152,95 @@ export class AuxiliaryService {
       this.liberadosData.splice(indexNum - contLiberados, 1);
       ++contLiberados;
     });
-    // this.sortNotasByCpf();
+    this.getIndex();
+  }
+
+  protected getIndex(): void {
+    this.addLogLine('relaciona cabeçalhos nas planilhas');
+    // liberados
+    this.iNo = this.liberadosData[0].indexOf('No.') !== -1 ?
+      this.liberadosData[0].indexOf('No.') : this.liberadosData[0].indexOf('No');
+    this.iCnpjEmit = this.liberadosData[0].indexOf('CNPJ emit') !== -1 ?
+      this.liberadosData[0].indexOf('CNPJ emit') : this.liberadosData[0].indexOf('CNPJ emit.');
+    this.iCreditos = this.liberadosData[0].indexOf('Créditos');
+    this.iSitCred = this.liberadosData[0].indexOf('Situação do Crédito');
+    this.iEmitente = this.liberadosData[0].indexOf('Emitente');
+    // cadastradores
+    this.iCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
+    this.iNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
+    this.iCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
+
     this.matchSheets();
   }
 
-  // protected sortNotasByCpf(): void {
-  //   this.addLogLine('identifica cpf de cadastradores');
-  //   const indexCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
-  //   const indexNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
-  //   const indexCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
-  //   this.cadastradoresData.forEach( (line, i) => {
-  //     if (i > 0) {
-  //       if (!this.notasCpf.find( item => item.cpf === line[indexCpf])) {
-  //         this.notasCpf.push({ cpf: line[indexCpf], dataNf: [] });
-  //       }
-  //       this.notasCpf.forEach( item => { if (item.cpf === line[indexCpf]) {
-  //         item.dataNf.push({ numNota: line[indexNumNota], cnpjEstab: line[indexCnpjEstab]}); }
-  //       });
-  //     }
-  //   });
-  //   this.addLogLine('separa notas fiscais por cpf');
-  //   // console.log('vamo la', this.notasCpf);
-  //   this.matchSheets();
-
-  // }
-
   protected matchSheets(): void {
-    console.log('passa no match sheets');
     this.addLogLine('começa a relacionar as planilhas');
-    // liberados
-    const iNo = this.liberadosData[0].indexOf('No.') !== -1 ?
-    this.liberadosData[0].indexOf('No.') : this.liberadosData[0].indexOf('No');
-    const iCnpjEmit = this.liberadosData[0].indexOf('CNPJ emit') !== -1 ?
-    this.liberadosData[0].indexOf('CNPJ emit') : this.liberadosData[0].indexOf('CNPJ emit.');
-    const iCreditos = this.liberadosData[0].indexOf('Créditos');
-    const iSitCred = this.liberadosData[0].indexOf('Situação do Crédito');
-    const iEmitente = this.liberadosData[0].indexOf('Emitente');
-    // cadastradores
-    const iCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
-    const iNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
-    const iCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
-
     this.cadastradoresData.forEach( (cadLin, i) => {
       if (i > 0) {
         const libLin =
-        this.liberadosData.find(line => line[iNo] === cadLin[iNumNota] && line[iCnpjEmit] === cadLin[iCnpjEstab]);
+          this.liberadosData.find(line => line[this.iNo] === cadLin[this.iNumNota] && line[this.iCnpjEmit] === cadLin[this.iCnpjEstab]);
         if (libLin) {
-          this.addLogLine(`número da nota: "${cadLin[iNumNota]}" e CNPJ: "${cadLin[iCnpjEstab]}" relacionados`);
-          console.log('encontrado');
-          if (!this.notasCpf.find( line => line.cpf === cadLin[iCpf])) {
-            this.notasCpf.push({ cpf: cadLin[iCpf], dataNf: [] });
+          this.addLogLine(`número da nota: "${cadLin[this.iNumNota]}" e CNPJ: "${cadLin[this.iCnpjEstab]}" relacionados`);
+          const cpfCollected =  cadLin[this.iCpf] ? cadLin[this.iCpf] : 'não identificado';
+          if (!this.notasCpf.find( line => line.cpf === cpfCollected)) {
+            this.notasCpf.push({ cpf: cpfCollected, dataNf: [] });
           }
-          this.notasCpf.forEach( item => { if (item.cpf === cadLin[iCpf]) {
+          this.notasCpf.forEach( item => { if (item.cpf === cpfCollected) {
             item.dataNf.push(
-              { numNota: cadLin[iNumNota], cnpjEstab: cadLin[iCnpjEstab], emitente: libLin[iEmitente],
-                sitCred: libLin[iSitCred], credito: libLin[iCreditos] }); }
+              { numNota: cadLin[this.iNumNota], cnpjEstab: cadLin[this.iCnpjEstab], emitente: libLin[this.iEmitente],
+                sitCred: libLin[this.iSitCred], credito: libLin[this.iCreditos] }); }
             });
+
         } else {
-          console.log('não encontrou', cadLin);
-          this.addLogLine(`número da nota: "${cadLin[iNumNota]}" e CNPJ: "${cadLin[iCnpjEstab]}" não relacionados`);
+          this.addLogLine(`número da nota: "${cadLin[this.iNumNota]}" e CNPJ: "${cadLin[this.iCnpjEstab]}" não relacionados`);
+          if (!this.notasCpf.find( line => line.cpf === 'não relacionadas')) {
+            this.notasCpf.push({ cpf: 'não relacionadas', dataNf: [] });
+          }
+          this.notasCpf.forEach( item => { if (item.cpf === 'não relacionadas') {
+            item.dataNf.push(
+              { numNota: cadLin[this.iNumNota], cnpjEstab: cadLin[this.iCnpjEstab], emitente: 'não encontrado',
+                sitCred: 'não encontrado', credito: 0 }); }
+            });
         }
       }
     });
-    console.log(this.notasCpf);
     this.addLogLine('termina processamento das planilhas');
+    this.sortCpf();
+    this.liberadosTotal();
     this.subjResult.next(this.notasCpf);
     this.addLogLine('redireciona para os resultados');
     this.router.navigate(['/result-process']);
+  }
+
+  protected sortCpf(): void {
+    this.addLogLine('ordenas CPFs');
+    this.notasCpf.forEach( (item, i) => {
+      if (item.cpf === 'não relacionadas') {
+        this.notasCpf.push(item);
+        this.notasCpf.splice(i, 1);
+      }
+    });
+  }
+
+  protected liberadosTotal(): void {
+    this.addLogLine('trata planilha de liberados');
+    this.notasCpf.push({ cpf: 'notas liberadas', dataNf: [] });
+    this.liberadosData.forEach( (libLin, i) => {
+      if (i > 0) {
+        this.notasCpf.forEach( item => { if (item.cpf === 'notas liberadas') {
+          item.dataNf.push(
+            { numNota: libLin[this.iNo], cnpjEstab: libLin[this.iCnpjEmit], emitente: libLin[this.iEmitente],
+              sitCred: libLin[this.iSitCred], credito: libLin[this.iCreditos]}); }
+          });
+      }
+    });
+    this.addLogLine('ordena planilha de liberados');
+    this.notasCpf.find( item => item.cpf === 'notas liberadas').dataNf
+      .sort( (a, b) => {
+        if (a.credito < b.credito) { return 1; }
+        if (a.credito > b.credito) { return -1; }
+        return 0;
+      });
   }
 
   public removeResults(): void {
