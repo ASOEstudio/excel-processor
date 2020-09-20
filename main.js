@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron')
-const url = require("url");
-const path = require("path");
+const url = require('url');
+const path = require('path');
 
 let appWindow
 
@@ -25,8 +25,8 @@ function initWindow() {
   // Electron Build Path
   appWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, `/dist/index.html`),
-      protocol: "file:",
+      pathname: path.join(__dirname, '/dist/index.html'),
+      protocol: 'file:',
       slashes: true
     })
   );

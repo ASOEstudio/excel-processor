@@ -59,7 +59,7 @@ export class AuxiliaryService {
       this.filesRead.liberados = res.fileInfo?.name ? true : false; });
   }
 
-  public prossessFiles(data: DataTransfer | any): void {
+  public processFiles(data: DataTransfer | any): void {
     const files: File[] = data.files;
     if (files.length > 2) { this.setSnackbar('apenas duas planilhas são permitida'); }
     const excelFiles: File[] = [];
@@ -69,10 +69,10 @@ export class AuxiliaryService {
       if (validFile) { excelFiles.push(file);
       } else { this.setSnackbar(`arquivo "${file.name}" não é uma planilha`); }
     }
-    if (excelFiles.length > 0) { this.prossessExcel(excelFiles); }
+    if (excelFiles.length > 0) { this.processExcel(excelFiles); }
   }
 
-  protected prossessExcel(files: File[]): void {
+  protected processExcel(files: File[]): void {
     if (!this.filesRead.cadastradores || !this.filesRead.liberados) {
       for (const file of files) {
         // wire up file reader

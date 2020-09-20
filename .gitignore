@@ -4,7 +4,8 @@
 /dist
 /tmp
 /out-tsc
-/application-win32-x64
+/excel-processor-win32-x64
+/installers
 # Only exists if Bazel was run
 /bazel-out
 

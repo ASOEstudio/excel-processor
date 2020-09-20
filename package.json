@@ -1,14 +1,21 @@
 {
   "name": "excel-processor",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "main": "main.js",
+  "description": "Spreadsheet Processor",
+  "author": "ASO Estúdio",
+  "license": "MIT",
+  "build": {
+    "productName": "Excel Processor"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "electron": "electron .",
-    "start:electron": "ng build --prod --base-href ./ && electron .",
-    "start:electron:build": "ng build --prod --base-href ./ && electron . && electron-packager . application platform=win32 --overwrite",
+    "start:electron": "ng build --base-href ./ && electron .",
+    "build:electron": "ng build --base-href ./ && electron . && electron-packager . --platform win32 --arch x64 --overwrite --ignore=/.gitignore --ignore=/node_modules --ignore=/e2e --ignore=/src --ignore=/.browserslistrc --ignore=/.editorconfig --ignore=/angular.json --ignore=/angular.json --ignore=/karma.conf.js --ignore=/package-lock.json --ignore=/README.md --ignore=/tsconfig.app.json --ignore=/tsconfig.json --ignore=/tsconfig.spec.json --ignore=/tslint.json",
+    "setup:electron": "electron-installer-windows --src excel-processor-win32-x64 --dest installers/ --options.noMsi=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -42,6 +49,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "electron": "^10.1.1",
+    "electron-installer-windows": "^3.0.0",
     "electron-packager": "^15.1.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

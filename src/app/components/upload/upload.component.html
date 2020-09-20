@@ -7,10 +7,8 @@
       <h2>ou</h2>
       <input id="uplodInput" class="ep-cursor-pointer" type="file" multiple (change)="receiveFiles($event, true)"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-      <button mat-raised-button color="primary" (click)="labelInput.click(); $event.stopPropagation()"
-        [disabled]="fileOver || disabledUpload.cadastradores && disabledUpload.liberados">
-        <label #labelInput for="uplodInput" class="ep-cursor-pointer">procurar arquivo</label>
-      </button>
+      <button mat-raised-button color="primary" [disabled]="fileOver || disabledUpload.cadastradores && disabledUpload.liberados">
+        procurar arquivo</button>
     </mat-card-content>
   </mat-card>
 </section>

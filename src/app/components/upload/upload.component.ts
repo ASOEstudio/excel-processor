@@ -24,8 +24,8 @@ export class UploadComponent implements OnInit {
   }
 
   receiveFiles(event, input = false): void {
-    if (input) { this.auxiliary.prossessFiles(event.target);
-    } else { this.auxiliary.prossessFiles(event); }
+    if (input) { this.auxiliary.processFiles(event.target);
+    } else { this.auxiliary.processFiles(event); }
   }
 
 }
