@@ -6,6 +6,8 @@ import { AuxiliaryService, SheetMatch } from 'src/app/services/auxiliary.service
 import { MatTable } from '@angular/material/table';
 import { DOCUMENT } from '@angular/common';
 
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-result-process',
   templateUrl: './result-process.component.html',
@@ -21,6 +23,8 @@ export class ResultProcessComponent implements OnInit, OnDestroy, AfterViewInit 
   public columnsLabel: string[];
   public tabIndex = 0;
   public liberadosAll = false;
+
+  downloadIcon = faDownload;
 
   constructor(
     private auxiliary: AuxiliaryService,
@@ -67,9 +71,12 @@ export class ResultProcessComponent implements OnInit, OnDestroy, AfterViewInit 
         const margin = (2 + 2) * 16;
         const sum = `height: calc(100vh - ${pageBack + card + tabHeader + margin}px)`.toLowerCase();
         tabBody.setAttribute('style', sum);
-        console.log(tabBody.style.height);
       }
     }, 500);
+  }
+
+  exportTable(): void {
+    this.auxiliary.exportFile(this.result[this.tabIndex]);
   }
 
 }

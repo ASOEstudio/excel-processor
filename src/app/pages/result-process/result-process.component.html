@@ -1,6 +1,6 @@
 <section class="result-process-wrapper">
   <app-page-back [pageDescription]="'receber arquivos'" [route]="'/receives-files'"></app-page-back>
-  <mat-card class="primary-color darken margin-top-bottom">
+  <mat-card class="primary-color darken margin-top-bottom card-ajust">
     <mat-card-content class="ep-select-text">
       <div class="head-first-line">
         <p *ngIf="result[tabIndex].cpf !== 'notas liberadas'">
@@ -12,9 +12,15 @@
         <p *ngIf="result[tabIndex].cpf !== 'não relacionadas'">
           <span>crédito total</span>{{ result[tabIndex].totalValue | currency:'BRL' }}</p>
       </div>
-      <p class="head-second-line"><span>{{ result[tabIndex].numNotas }}</span>
-        {{ result[tabIndex].numNotas > 1 ? 'notas computadas' : 'nota computada' }}, sendo <span>{{ result[tabIndex].notaWithValue }}</span>
-        com {{ result[tabIndex].notaWithValue > 1 ? 'valores positivos' : 'valor positivo' }}</p>
+      <div class="head-second-line">
+        <p><span>{{ result[tabIndex].numNotas }}</span>
+          {{ result[tabIndex].numNotas > 1 ? 'notas computadas' : 'nota computada' }}, sendo <span>{{ result[tabIndex].notaWithValue }}</span>
+          com {{ result[tabIndex].notaWithValue > 1 ? 'valores positivos' : 'valor positivo' }}</p>
+          <button mat-button mat-stroked-button color="warn" (click)="exportTable()">
+            exportar para planilha
+            <fa-icon [icon]="downloadIcon" size="lg"></fa-icon>
+          </button>
+      </div>
     </mat-card-content>
   </mat-card>
 

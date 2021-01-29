@@ -9,12 +9,19 @@
   width: 100%;
 }
 
-.head-first-line {
+.head-first-line, .head-second-line {
   display: flex;
   justify-content: space-between;
   margin-bottom: .5rem;
-  height: 25px;
+  align-items: center;
 
+  p {
+    height: 24px;
+    margin: unset;
+  }
+}
+
+.head-first-line {
   p {
     margin: unset;
     font-size: 24px;
@@ -34,6 +41,10 @@
     padding: .25rem;
     border-radius: 6px;
   }
+
+  .ng-fa-icon {
+    margin-left: .25rem;
+  }
 }
 
 .sort-field {
@@ -43,4 +54,8 @@
   font-size: 1.15rem;
   margin-left: .75rem;
   text-align: center;
+}
+
+.card-ajust {
+  min-height: 70px;
 }

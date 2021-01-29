@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ExploreResult } from '../pages/result-process/result-process.component';
 
 @Injectable({
   providedIn: 'root'
@@ -248,17 +249,18 @@ export class AuxiliaryService {
     this.subjResult.next([]);
   }
 
-  // export(): void {
-  //   /* generate worksheet */
-  //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(this.data);
+  public exportFile(tableData: ExploreResult): void {
+    const aoaData: string[][] = tableData.dataNf.map(line => Object.values(line));
+    aoaData.unshift(['Nota Fiscal', 'CNPJ', 'Emitente', 'Situação Crédito', 'Crédito']);
 
-  //   /* generate workbook and add the worksheet */
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-  //   /* save to file */
-  //   XLSX.writeFile(wb, this.fileName);
-  // }
+    /* generate worksheet */
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoaData);
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, tableData.cpf);
+    /* save to file */
+    XLSX.writeFile(wb, `cadastrador_${tableData.cpf}.xlsx`);
+  }
 
 }
 
