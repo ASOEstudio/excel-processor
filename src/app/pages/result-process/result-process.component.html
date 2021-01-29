@@ -1,7 +1,7 @@
 <section class="result-process-wrapper">
   <app-page-back [pageDescription]="'receber arquivos'" [route]="'/receives-files'"></app-page-back>
   <mat-card class="primary-color darken margin-top-bottom">
-    <mat-card-content>
+    <mat-card-content class="ep-select-text">
       <div class="head-first-line">
         <p *ngIf="result[tabIndex].cpf !== 'notas liberadas'">
           <span *ngIf="result[tabIndex].cpf !== 'não relacionadas'">cadastrador</span>
@@ -22,7 +22,7 @@
     (selectedTabChange)="tabIndex = $event.index; defineTabBodyHeight()">
     <mat-tab *ngFor="let cpf of result; let i = index" [label]="cpf.cpf">
 
-      <table mat-table #table [dataSource]="cpf.dataNf" class="table-result" >
+      <table mat-table #table [dataSource]="cpf.dataNf" class="table-result ep-select-text" >
         <ng-container matColumnDef="numNota">
           <th mat-header-cell *matHeaderCellDef> Nota Fiscal </th>
           <td mat-cell *matCellDef="let element"> {{ element.numNota }} </td>
