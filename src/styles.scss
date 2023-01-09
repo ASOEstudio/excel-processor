@@ -88,9 +88,7 @@ body {
   animation: fadein 1s;
 }
 
-.mat-tab-body-content {
-  scrollbar-width: thin;
-
+.cdk-virtual-scroll-viewport {
   &::-webkit-scrollbar {
     height: 7px;
     width: 7px;
