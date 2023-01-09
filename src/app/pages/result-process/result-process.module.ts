@@ -8,7 +8,6 @@ import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PageBackModule } from 'src/app/components/page-back/page-back.module';
 
-
 @NgModule({
   declarations: [ResultProcessComponent],
   imports: [
@@ -22,4 +21,4 @@ import { PageBackModule } from 'src/app/components/page-back/page-back.module';
   ],
   exports: [ResultProcessComponent],
 })
-export class ResultProcessModule { }
+export class ResultProcessModule {}

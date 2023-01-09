@@ -1,3 +1,8 @@
-<section class="log-box-wrapper" [ngClass]="expanded ? 'expanded' : ''" (mouseover)="expanded = true" (mouseout)="expanded = false">
+<section
+  class="log-box-wrapper"
+  [ngClass]="expanded ? 'expanded' : ''"
+  (mouseover)="expanded = true"
+  (mouseout)="expanded = false"
+>
   <p *ngFor="let line of itemsList">{{ line }}</p>
 </section>

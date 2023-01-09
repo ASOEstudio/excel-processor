@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .primary-color {
   background-color: #7b1fa2;
@@ -69,10 +75,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: 1rem 0;
 }
 
-
 @keyframes fadein {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .fadein {

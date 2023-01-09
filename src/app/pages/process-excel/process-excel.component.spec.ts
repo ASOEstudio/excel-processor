@@ -8,9 +8,8 @@ describe('ProcessExcelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProcessExcelComponent ]
-    })
-    .compileComponents();
+      declarations: [ProcessExcelComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-receives-files',
   templateUrl: './receives-files.component.html',
-  styleUrls: ['./receives-files.component.scss']
+  styleUrls: ['./receives-files.component.scss'],
 })
 export class ReceivesFilesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

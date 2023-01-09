@@ -8,14 +8,14 @@
   justify-content: flex-end;
   overflow-y: hidden;
   height: 110px;
-  transition: height ease-in-out .5s;
+  transition: height ease-in-out 0.5s;
 
   &.expanded {
     height: 100%;
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     height: 60px;
@@ -25,7 +25,7 @@
   }
 
   p {
-    margin: .5rem 0;
+    margin: 0.5rem 0;
     font-weight: lighter;
   }
 }

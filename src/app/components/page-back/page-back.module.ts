@@ -7,17 +7,9 @@ import { PageBackComponent } from './page-back.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule } from '@angular/material/button';
 
-
-
 @NgModule({
   declarations: [PageBackComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-
-    FontAwesomeModule,
-    MatButtonModule,
-  ],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, MatButtonModule],
   exports: [PageBackComponent],
 })
-export class PageBackModule { }
+export class PageBackModule {}

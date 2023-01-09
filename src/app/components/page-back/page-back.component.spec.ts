@@ -8,9 +8,8 @@ describe('PageBackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageBackComponent ]
-    })
-    .compileComponents();
+      declarations: [PageBackComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

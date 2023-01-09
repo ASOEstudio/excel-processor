@@ -27,10 +27,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ResultProcessModule,
     MatSnackBarModule,
   ],
-  providers: [
-    AuxiliaryService,
-    { provide: LOCALE_ID, useValue: 'pt' },
-  ],
-  bootstrap: [AppComponent]
+  providers: [AuxiliaryService, { provide: LOCALE_ID, useValue: 'pt' }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

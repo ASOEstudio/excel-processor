@@ -1,66 +1,108 @@
 <section class="result-process-wrapper">
-  <app-page-back [pageDescription]="'receber arquivos'" [route]="'/receives-files'"></app-page-back>
+  <app-page-back
+    [pageDescription]="'receber arquivos'"
+    [route]="'/receives-files'"
+  ></app-page-back>
   <mat-card class="primary-color darken margin-top-bottom card-ajust">
     <mat-card-content class="ep-select-text">
       <div class="head-first-line">
         <p *ngIf="result[tabIndex].cpf !== 'notas liberadas'">
-          <span *ngIf="result[tabIndex].cpf !== 'não relacionadas'">cadastrador</span>
-          {{ result[tabIndex].cpf !== 'não relacionadas' ? result[tabIndex].cpf :
-            'Notas da planilha "Cadastradores" que não se relacionam com a planilha "Liberados"' }}
-          </p>
-        <p *ngIf="result[tabIndex].cpf === 'notas liberadas'">Todas as notas da planilha "Liberados"</p>
+          <span *ngIf="result[tabIndex].cpf !== 'não relacionadas'"
+            >cadastrador</span
+          >
+          {{
+            result[tabIndex].cpf !== "não relacionadas"
+              ? result[tabIndex].cpf
+              : 'Notas da planilha "Cadastradores" que não se relacionam com a planilha "Liberados"'
+          }}
+        </p>
+        <p *ngIf="result[tabIndex].cpf === 'notas liberadas'">
+          Todas as notas da planilha "Liberados"
+        </p>
         <p *ngIf="result[tabIndex].cpf !== 'não relacionadas'">
-          <span>crédito total</span>{{ result[tabIndex].totalValue | currency:'BRL' }}</p>
+          <span>crédito total</span
+          >{{ result[tabIndex].totalValue | currency : "BRL" }}
+        </p>
       </div>
       <div class="head-second-line">
-        <p><span>{{ result[tabIndex].numNotas }}</span>
-          {{ result[tabIndex].numNotas > 1 ? 'notas computadas' : 'nota computada' }}, sendo <span>{{ result[tabIndex].notaWithValue }}</span>
-          com {{ result[tabIndex].notaWithValue > 1 ? 'valores positivos' : 'valor positivo' }}</p>
-          <button mat-button mat-stroked-button color="warn" (click)="exportTable()">
-            exportar para planilha
-            <fa-icon [icon]="downloadIcon" size="lg"></fa-icon>
-          </button>
+        <p>
+          <span>{{ result[tabIndex].numNotas }}</span>
+          {{
+            result[tabIndex].numNotas > 1
+              ? "notas computadas"
+              : "nota computada"
+          }}, sendo <span>{{ result[tabIndex].notaWithValue }}</span> com
+          {{
+            result[tabIndex].notaWithValue > 1
+              ? "valores positivos"
+              : "valor positivo"
+          }}
+        </p>
+        <button
+          mat-button
+          mat-stroked-button
+          color="warn"
+          (click)="exportTable()"
+        >
+          exportar para planilha
+          <fa-icon [icon]="downloadIcon" size="lg"></fa-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
 
-  <mat-tab-group mat-align-tabs="center" color="accent" [selectedIndex]="tabIndex" animationDuration="250ms"
-    (selectedTabChange)="tabIndex = $event.index; defineTabBodyHeight()">
+  <mat-tab-group
+    mat-align-tabs="center"
+    color="accent"
+    [selectedIndex]="tabIndex"
+    animationDuration="250ms"
+    (selectedTabChange)="tabIndex = $event.index; defineTabBodyHeight()"
+  >
     <mat-tab *ngFor="let cpf of result; let i = index" [label]="cpf.cpf">
-
-      <table mat-table #table [dataSource]="cpf.dataNf" class="table-result ep-select-text" >
+      <table
+        mat-table
+        #table
+        [dataSource]="cpf.dataNf"
+        class="table-result ep-select-text"
+      >
         <ng-container matColumnDef="numNota">
-          <th mat-header-cell *matHeaderCellDef> Nota Fiscal </th>
-          <td mat-cell *matCellDef="let element"> {{ element.numNota }} </td>
+          <th mat-header-cell *matHeaderCellDef>Nota Fiscal</th>
+          <td mat-cell *matCellDef="let element">{{ element.numNota }}</td>
         </ng-container>
         <ng-container matColumnDef="cnpjEstab">
-          <th mat-header-cell *matHeaderCellDef> CNPJ </th>
-          <td mat-cell *matCellDef="let element"> {{ element.cnpjEstab }} </td>
+          <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+          <td mat-cell *matCellDef="let element">{{ element.cnpjEstab }}</td>
         </ng-container>
         <ng-container matColumnDef="emitente">
-          <th mat-header-cell *matHeaderCellDef> Emitente </th>
-          <td mat-cell *matCellDef="let element"> {{ element.emitente }} </td>
+          <th mat-header-cell *matHeaderCellDef>Emitente</th>
+          <td mat-cell *matCellDef="let element">{{ element.emitente }}</td>
         </ng-container>
         <ng-container matColumnDef="sitCred">
-          <th mat-header-cell *matHeaderCellDef> Situação Crédito </th>
-          <td mat-cell *matCellDef="let element"> {{ element.sitCred }} </td>
+          <th mat-header-cell *matHeaderCellDef>Situação Crédito</th>
+          <td mat-cell *matCellDef="let element">{{ element.sitCred }}</td>
         </ng-container>
         <ng-container matColumnDef="credito">
-          <th mat-header-cell *matHeaderCellDef class="ep-text-align-right"> <!-- (click)="sortCreditoButton(); --> Crédito
+          <th mat-header-cell *matHeaderCellDef class="ep-text-align-right">
+            <!-- (click)="sortCreditoButton(); -->
+            Crédito
             <!-- <span class="sort-field" [ngSwitch]="sortCredito">
               <fa-icon *ngSwitchCase="null" [icon]="sortIcon"></fa-icon>
               <fa-icon *ngSwitchCase="'big'" [icon]="sortBigIcon"></fa-icon>
               <fa-icon *ngSwitchCase="'small'" [icon]="sortSmallIcon"></fa-icon>
             </span> -->
           </th>
-          <td mat-cell *matCellDef="let element" class="ep-text-align-right"> {{ element.credito | currency:'BRL' }} </td>
+          <td mat-cell *matCellDef="let element" class="ep-text-align-right">
+            {{ element.credito | currency : "BRL" }}
+          </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsLabel"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsLabel;"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsLabel"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
     </mat-tab>
   </mat-tab-group>
 </section>

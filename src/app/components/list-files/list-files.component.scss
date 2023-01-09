@@ -5,19 +5,18 @@
 }
 
 .disabled {
-  opacity: .25;
+  opacity: 0.25;
   pointer-events: none;
   user-select: none;
 }
 
 .card-files {
-  margin-top: .35rem;
+  margin-top: 0.35rem;
 }
 
 .card-items {
   display: flex;
   align-items: center;
-
 }
 .info-container {
   width: 100%;

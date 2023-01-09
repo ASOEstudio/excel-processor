@@ -7,18 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FontAwesomeModule,
-    MatButtonModule,
-    MatCardModule,
-  ],
+  imports: [CommonModule, FontAwesomeModule, MatButtonModule, MatCardModule],
   exports: [
     FontAwesomeModule,
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

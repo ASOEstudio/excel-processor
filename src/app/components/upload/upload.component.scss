@@ -1,9 +1,9 @@
 .upload-wrapper {
-	width: 500px;
+  width: 500px;
   position: relative;
 
   &.disabled {
-    opacity: .25;
+    opacity: 0.25;
     pointer-events: none;
     user-select: none;
   }
@@ -24,17 +24,19 @@
 }
 
 .file-over {
-	transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-transition {
-  transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.padding-xl{
+.padding-xl {
   padding: 2rem;
 }
 
 .opacity-75 {
-  opacity: .75;
+  opacity: 0.75;
 }

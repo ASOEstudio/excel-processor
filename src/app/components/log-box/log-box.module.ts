@@ -2,13 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LogBoxComponent } from './log-box.component';
 
-
-
 @NgModule({
   declarations: [LogBoxComponent],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [LogBoxComponent],
 })
-export class LogBoxModule { }
+export class LogBoxModule {}

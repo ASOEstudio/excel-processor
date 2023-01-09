@@ -7,8 +7,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PageBackModule } from 'src/app/components/page-back/page-back.module';
 import { LogBoxModule } from 'src/app/components/log-box/log-box.module';
 
-
-
 @NgModule({
   declarations: [ProcessExcelComponent],
   imports: [
@@ -19,6 +17,6 @@ import { LogBoxModule } from 'src/app/components/log-box/log-box.module';
     PageBackModule,
     LogBoxModule,
   ],
-  exports: [ProcessExcelComponent]
+  exports: [ProcessExcelComponent],
 })
-export class ProcessExcelModule { }
+export class ProcessExcelModule {}
