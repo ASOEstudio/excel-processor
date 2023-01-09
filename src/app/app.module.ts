@@ -14,6 +14,7 @@ import { AuxiliaryService } from './services/auxiliary.service';
 import { ResultProcessModule } from './pages/result-process/result-process.module';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [AppComponent],
