@@ -1,11 +1,18 @@
 .page-back-wrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.button-container {
+  display: inherit;
+  align-items: inherit;
 }
 
 .description {
   margin-bottom: unset;
   margin-left: 1rem;
+  margin-right: 1rem;
   transform: scaleY(0);
   transition: transform ease-in-out 0.05s;
 

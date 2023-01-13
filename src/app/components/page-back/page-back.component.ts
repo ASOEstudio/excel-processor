@@ -8,11 +8,14 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./page-back.component.scss'],
 })
 export class PageBackComponent implements OnInit {
-  @Input() pageDescription: string;
-  @Input() route: string;
+  @Input() pageBackDescription: string;
+  @Input() backRoute: string;
+  @Input() pageNextDescription: string;
+  @Input() nextRoute: string;
 
   public faArrowLeft = faArrowLeft;
-  public hoverbutton = false;
+  public hoverBackButton = false;
+  public hoverNextButton = false;
 
   constructor() {}
 

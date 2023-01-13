@@ -1,0 +1,15 @@
+@use 'src/assets/styles/result-component' as *;
+
+.section-cards {
+  display: flex;
+  gap: 1rem;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.line-input-cashback {
+  gap: .5rem;
+  justify-content: flex-start;
+}

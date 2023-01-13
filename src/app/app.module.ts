@@ -14,6 +14,7 @@ import { AuxiliaryService } from './services/auxiliary.service';
 import { ResultProcessModule } from './pages/result-process/result-process.module';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ResultConsolidatedModule } from './pages/result-consolidated/result-consolidated.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReceivesFilesModule,
     ProcessExcelModule,
     ResultProcessModule,
+    ResultConsolidatedModule,
     MatSnackBarModule,
   ],
   providers: [AuxiliaryService, { provide: LOCALE_ID, useValue: 'pt' }],

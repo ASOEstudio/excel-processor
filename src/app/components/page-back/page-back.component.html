@@ -1,13 +1,29 @@
 <section class="page-back-wrapper">
-  <button
-    mat-mini-fab
-    [routerLink]="[route]"
-    (mouseover)="hoverbutton = true"
-    (mouseout)="hoverbutton = false"
-  >
-    <fa-icon [icon]="faArrowLeft"></fa-icon>
-  </button>
-  <h3 class="description" [ngClass]="hoverbutton ? 'show' : ''">
-    voltar à -- {{ pageDescription }}
-  </h3>
+  <div class="button-container">
+    <button
+      mat-mini-fab
+      [routerLink]="[backRoute]"
+      (mouseover)="hoverBackButton = true"
+      (mouseout)="hoverBackButton = false"
+    >
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+    </button>
+    <h3 class="description" [ngClass]="hoverBackButton ? 'show' : ''">
+      voltar à -- {{ pageBackDescription }}
+    </h3>
+  </div>
+  <div class="button-container" *ngIf="nextRoute">
+    <h3 class="description" [ngClass]="hoverNextButton ? 'show' : ''">
+      ir parar =>
+    </h3>
+    <button
+      mat-raised-button
+      color="warn"
+      [routerLink]="[nextRoute]"
+      (mouseover)="hoverNextButton = true"
+      (mouseout)="hoverNextButton = false"
+    >
+      {{ pageNextDescription }}
+    </button>
+  </div>
 </section>

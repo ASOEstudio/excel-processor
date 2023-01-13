@@ -1,0 +1,68 @@
+.result-process-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.table-result {
+  width: 100%;
+}
+
+.head-first-line,
+.head-second-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+
+  p {
+    height: 24px;
+    margin: unset;
+  }
+}
+
+.head-first-line {
+  p {
+    margin: unset;
+    font-size: 24px;
+
+    span {
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+      vertical-align: super;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: normal;
+    }
+  }
+}
+
+.head-second-line {
+  span {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem;
+    border-radius: 6px;
+  }
+
+  .ng-fa-icon {
+    margin-left: 0.25rem;
+  }
+}
+
+.sort-field {
+  display: inline-block;
+  vertical-align: inherit;
+  width: 17px;
+  font-size: 1.15rem;
+  margin-left: 0.75rem;
+  text-align: center;
+}
+
+.card-ajust {
+  min-height: 70px;
+}
+
+.value-block {
+  display: flex;
+  gap: 2rem;
+}

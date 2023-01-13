@@ -4,12 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReceivesFilesComponent } from './pages/receives-files/receives-files.component';
 import { ProcessExcelComponent } from './pages/process-excel/process-excel.component';
 import { ResultProcessComponent } from './pages/result-process/result-process.component';
+import { ResultConsolidatedComponent } from './pages/result-consolidated/result-consolidated.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'receives-files', pathMatch: 'full' },
   { path: 'receives-files', component: ReceivesFilesComponent },
   { path: 'process-excel', component: ProcessExcelComponent },
   { path: 'result-process', component: ResultProcessComponent },
+  { path: 'result-consolidated', component: ResultConsolidatedComponent },
   { path: '**', redirectTo: '' },
 ];
 

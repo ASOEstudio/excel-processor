@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
@@ -10,12 +6,8 @@ import {
   SheetMatch,
 } from 'src/app/services/auxiliary.service';
 
-import { MatTable } from '@angular/material/table';
-import { DOCUMENT } from '@angular/common';
-
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-result-process',
@@ -23,7 +15,9 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
   styleUrls: ['./result-process.component.scss'],
 })
 export class ResultProcessComponent implements OnDestroy {
+  protected subscription
   public result: ExploreResult[];
+  public loaded = false;
 
   public columnsLabel: string[];
   public tabIndex = 0;
@@ -31,16 +25,14 @@ export class ResultProcessComponent implements OnDestroy {
 
   downloadIcon = faDownload;
 
-  constructor(
-    private auxiliary: AuxiliaryService,
-    private router: Router,
-  ) {
-    this.auxiliary.result$.subscribe((res) => {
+  constructor(private auxiliary: AuxiliaryService, private router: Router) {
+    this.subscription = this.auxiliary.result$.subscribe((res) => {
       if (!res[0]) {
         this.router.navigate(['/']);
       } else {
         this.columnsLabel = Object.keys(res[0].dataNf[0]);
         this.exploreData(res).then((data) => {
+          this.loaded = true;
           this.result = data;
         });
       }
@@ -48,23 +40,26 @@ export class ResultProcessComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.auxiliary.removeResults();
+    this.subscription.unsubscribe()
   }
 
   exploreData(data: SheetMatch[]): Promise<ExploreResult[]> {
+    this.loaded = false;
     const promise = new Promise<ExploreResult[]>((resolve) => {
       const result: ExploreResult[] = (
-        this.copyJSON(data) as ExploreResult[]
+        this.copyJSON(data) as SheetMatch[]
       ).map((cad) => {
-        const notasWithValue = cad.dataNf
-        .filter((nota) => nota.credito > 0);
+        const notasWithValue = cad.dataNf.filter((nota) => nota.credito > 0);
 
         return {
           cpf: cad.cpf,
           dataNf: cad.dataNf,
           numNotas: cad.dataNf.length,
           notaWithValue: notasWithValue.length,
-          totalValue: notasWithValue.reduce((acc, nota) => acc + nota.credito, 0),
+          totalValue: notasWithValue.reduce(
+            (acc, nota) => acc + nota.credito,
+            0
+          ),
           dataSource: new TableVirtualScrollDataSource(cad.dataNf),
         };
       });
@@ -74,7 +69,7 @@ export class ResultProcessComponent implements OnDestroy {
   }
 
   exportTable(): void {
-    this.auxiliary.exportFile(this.result[this.tabIndex]);
+    this.auxiliary.exportFileCpf(this.result[this.tabIndex]);
   }
 
   copyJSON(data: any) {

@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ExploreResult } from '../pages/result-process/result-process.component';
+import { ExploreResultConsolidated } from '../pages/result-consolidated/result-consolidated.component';
 
 @Injectable({
   providedIn: 'root',
@@ -346,7 +347,7 @@ export class AuxiliaryService {
     this.subjResult.next([]);
   }
 
-  public exportFile(tableData: ExploreResult): void {
+  public exportFileCpf(tableData: ExploreResult): void {
     const aoaData: string[][] = tableData.dataNf.map((line) =>
       Object.values(line)
     );
@@ -357,14 +358,33 @@ export class AuxiliaryService {
       'Situação Crédito',
       'Crédito',
     ]);
+    this.exportFile(
+      aoaData,
+      tableData.cpf,
+      `cadastrador_${tableData.cpf}.xlsx`
+    );
+  }
 
+  exportFileConsolidated(tableData: ExploreResultConsolidated): void {
+    const aoaData: string[][] = tableData.tableData.map((line) =>
+      Object.values(line)
+    );
+    aoaData.unshift(['CPF', 'Valor', 'CashBack']);
+    this.exportFile(aoaData, 'consolidado', 'valores_consolidados.xlsx');
+  }
+
+  protected exportFile(
+    aoaData: string[][],
+    spreadsheetName: string,
+    fileName: string
+  ): void {
     /* generate worksheet */
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoaData);
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, tableData.cpf);
+    XLSX.utils.book_append_sheet(wb, ws, spreadsheetName);
     /* save to file */
-    XLSX.writeFile(wb, `cadastrador_${tableData.cpf}.xlsx`);
+    XLSX.writeFile(wb, fileName);
   }
 }
 
