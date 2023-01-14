@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+// colors
+
+:root {
+  --primaryColor: #7b1fa2;
+  --primaryDarkenColor: #512e57;
+  --warnColor: #f44336;
+  --warnDarkenColor: #75342f;
+  --accentColor: #69f0ae;
+  --accentDarkenColor: #486b5b;
+}
+
 html,
 body {
   height: 100%;
@@ -10,22 +21,26 @@ body {
 }
 
 .primary-color {
-  background-color: #7b1fa2;
+  background-color: var(--primaryColor);
 
   &.darken {
-    background-color: #512e57;
+    background-color: var(--primaryDarkenColor);
   }
 }
 
 .warn-color {
-  background-color: #f44336;
+  background-color: var(--warnColor);
+
+  &.darken {
+    background-color: var(--warnDarkenColor);
+  }
 }
 
 .accent-color {
-  background-color: #69f0ae;
+  background-color: var(--accentColor);
 
   &.darken {
-    background-color: #317052;
+    background-color: var(--accentDarkenColor);
   }
 }
 
@@ -108,12 +123,12 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #69f0ae;
+    background-color: var(--accentColor);
     border-radius: 30px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #bb17d8;
+    background-color: var(--warnColor);;
   }
 }
 
@@ -141,7 +156,11 @@ input::-webkit-inner-spin-button {
     input.mat-input-element {
       font-size: 20px;
       text-align: center;
-      caret-color: #69f0ae;
+      caret-color: var(--accentColor);
+
+      &::selection{
+        background: var(--warnDarkenColor);
+      }
     }
 
     .mat-form-field-underline {
@@ -150,7 +169,7 @@ input::-webkit-inner-spin-button {
 
     &.mat-focused {
       .mat-form-field-ripple {
-        background-color: #69f0ae;
+        background-color: var(--accentColor);
       }
     }
   }

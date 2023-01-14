@@ -72,7 +72,7 @@ export class ResultConsolidatedComponent implements OnDestroy {
           cashbackTotal: notasLiberadas.cashback,
           numCpf: tableData.length - 2,
         },
-        dataSource: new TableVirtualScrollDataSource(tableData),
+        dataSource: new TableVirtualScrollDataSource<TableDataItem>(tableData),
       };
       resolve(result);
     });
@@ -90,11 +90,12 @@ export class ResultConsolidatedComponent implements OnDestroy {
   recalculate(value: string): void {
     if (value) {
       this.cashbackFee = +value;
+      this.auxiliary.setSnackbar('percentual de cashback recalculando');
       let { tableData, dataSource, explore } = this.result;
       tableData.forEach(
         (item) => (item.cashback = (item.sumValues * this.cashbackFee) / 100)
       );
-      dataSource = new TableVirtualScrollDataSource(tableData);
+      dataSource = new TableVirtualScrollDataSource<TableDataItem>(tableData);
       explore.cashbackTotal = tableData.find(
         (i) => i.cpf === 'notas liberadas'
       ).cashback;

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import {
   AuxiliaryService,
+  DataNf,
   SheetMatch,
 } from 'src/app/services/auxiliary.service';
 
@@ -60,7 +61,7 @@ export class ResultProcessComponent implements OnDestroy {
             (acc, nota) => acc + nota.credito,
             0
           ),
-          dataSource: new TableVirtualScrollDataSource(cad.dataNf),
+          dataSource: new TableVirtualScrollDataSource<DataNf>(cad.dataNf),
         };
       });
       resolve(result);

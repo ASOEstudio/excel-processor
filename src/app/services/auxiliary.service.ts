@@ -378,6 +378,7 @@ export class AuxiliaryService {
     spreadsheetName: string,
     fileName: string
   ): void {
+    this.setSnackbar(`arquivo "${fileName}" será processado`);
     /* generate worksheet */
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoaData);
     /* generate workbook and add the worksheet */
