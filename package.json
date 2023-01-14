@@ -16,6 +16,7 @@
     "start:electron": "ng build --base-href ./ && electron .",
     "build:electron": "ng build --base-href ./ && electron . && electron-packager . --platform win32 --arch x64 --overwrite --ignore=/.gitignore --ignore=/node_modules --ignore=/installers --ignore=/e2e --ignore=/src --ignore=/.browserslistrc --ignore=/.editorconfig --ignore=/angular.json --ignore=/angular.json --ignore=/karma.conf.js --ignore=/package-lock.json --ignore=/README.md --ignore=/tsconfig.app.json --ignore=/tsconfig.json --ignore=/tsconfig.spec.json --ignore=/tslint.json",
     "setup:electron": "electron-installer-windows --src excel-processor-win32-x64 --dest installers/ --options.noMsi=true",
+    "build:setup": "npm run build:electron && setup:electron",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
