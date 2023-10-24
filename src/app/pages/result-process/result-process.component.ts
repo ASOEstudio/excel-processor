@@ -16,7 +16,7 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
   styleUrls: ['./result-process.component.scss'],
 })
 export class ResultProcessComponent implements OnDestroy {
-  protected subscription
+  protected subscription;
   public result: ExploreResult[];
   public loaded = false;
 
@@ -25,6 +25,8 @@ export class ResultProcessComponent implements OnDestroy {
   public liberadosAll = false;
 
   downloadIcon = faDownload;
+
+  copyJSON = this.auxiliary.copyJSON;
 
   constructor(private auxiliary: AuxiliaryService, private router: Router) {
     this.subscription = this.auxiliary.result$.subscribe((res) => {
@@ -41,40 +43,28 @@ export class ResultProcessComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe();
   }
 
-  exploreData(data: SheetMatch[]): Promise<ExploreResult[]> {
+  async exploreData(data: SheetMatch[]): Promise<ExploreResult[]> {
     this.loaded = false;
-    const promise = new Promise<ExploreResult[]>((resolve) => {
-      const result: ExploreResult[] = (
-        this.copyJSON(data) as SheetMatch[]
-      ).map((cad) => {
-        const notasWithValue = cad.dataNf.filter((nota) => nota.credito > 0);
+    const result: ExploreResult[] = this.copyJSON(data).map((cad) => {
+      const notasWithValue = cad.dataNf.filter((nota) => nota.credito > 0);
 
-        return {
-          cpf: cad.cpf,
-          dataNf: cad.dataNf,
-          numNotas: cad.dataNf.length,
-          notaWithValue: notasWithValue.length,
-          totalValue: notasWithValue.reduce(
-            (acc, nota) => acc + nota.credito,
-            0
-          ),
-          dataSource: new TableVirtualScrollDataSource<DataNf>(cad.dataNf),
-        };
-      });
-      resolve(result);
+      return {
+        cpf: cad.cpf,
+        dataNf: cad.dataNf,
+        numNotas: cad.dataNf.length,
+        notaWithValue: notasWithValue.length,
+        totalValue: notasWithValue.reduce((acc, nota) => acc + nota.credito, 0),
+        dataSource: new TableVirtualScrollDataSource<DataNf>(cad.dataNf),
+      };
     });
-    return promise;
+    return Promise.resolve(result);
   }
 
   exportTable(): void {
     this.auxiliary.exportFileCpf(this.result[this.tabIndex]);
-  }
-
-  copyJSON(data: any) {
-    return JSON.parse(JSON.stringify(data));
   }
 }
 

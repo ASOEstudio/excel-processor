@@ -28,6 +28,8 @@ export class ResultConsolidatedComponent implements OnDestroy {
 
   downloadIcon = faDownload;
 
+  copyJSON = this.auxiliary.copyJSON;
+
   constructor(private auxiliary: AuxiliaryService, private router: Router) {
     this.subscription = this.auxiliary.result$.subscribe((res) => {
       if (!res[0]) {
@@ -48,43 +50,31 @@ export class ResultConsolidatedComponent implements OnDestroy {
 
   exploreData(data: SheetMatch[]): Promise<ExploreResultConsolidated> {
     this.loaded = false;
-    const promise = new Promise<ExploreResultConsolidated>((resolve) => {
-      const tableData: TableDataItem[] = (
-        this.copyJSON(data) as SheetMatch[]
-      ).map((cad) => {
-        const sumValues = cad.dataNf.reduce(
-          (acc, nota) => acc + nota.credito,
-          0
-        );
-        return {
-          cpf: cad.cpf,
-          sumValues,
-          cashback: (sumValues * this.cashbackFee) / 100,
-        };
-      });
-      const notasLiberadas = tableData.find(
-        (item) => item.cpf === 'notas liberadas'
-      );
-      const result: ExploreResultConsolidated = {
-        tableData,
-        explore: {
-          totalValue: notasLiberadas.sumValues,
-          cashbackTotal: notasLiberadas.cashback,
-          numCpf: tableData.length - 2,
-        },
-        dataSource: new TableVirtualScrollDataSource<TableDataItem>(tableData),
+    const tableData: TableDataItem[] = this.copyJSON(data).map((cad) => {
+      const sumValues = cad.dataNf.reduce((acc, nota) => acc + nota.credito, 0);
+      return {
+        cpf: cad.cpf,
+        sumValues,
+        cashback: (sumValues * this.cashbackFee) / 100,
       };
-      resolve(result);
     });
-    return promise;
+    const notasLiberadas = tableData.find(
+      (item) => item.cpf === 'notas liberadas'
+    );
+    const result: ExploreResultConsolidated = {
+      tableData,
+      explore: {
+        totalValue: notasLiberadas.sumValues,
+        cashbackTotal: notasLiberadas.cashback,
+        numCpf: tableData.length - 2,
+      },
+      dataSource: new TableVirtualScrollDataSource<TableDataItem>(tableData),
+    };
+    return Promise.resolve(result);
   }
 
   exportTable(): void {
     this.auxiliary.exportFileConsolidated(this.result);
-  }
-
-  copyJSON(data: any) {
-    return JSON.parse(JSON.stringify(data));
   }
 
   recalculate(value: string): void {

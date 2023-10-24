@@ -7,9 +7,7 @@ import { Router } from '@angular/router';
 import { ExploreResult } from '../pages/result-process/result-process.component';
 import { ExploreResultConsolidated } from '../pages/result-consolidated/result-consolidated.component';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuxiliaryService {
   // cadastradores
   public cadastradores$: Observable<FileInfo>;
@@ -41,6 +39,8 @@ export class AuxiliaryService {
   protected cadastradoresData: any[][];
   protected liberadosData: any[][];
   protected notasCpf: SheetMatch[] = [];
+
+  copyJSON = <T>(data: T): T => JSON.parse(JSON.stringify(data)) as T;
 
   constructor(private snackBar: MatSnackBar, private router: Router) {
     this.subjCadastradores = new BehaviorSubject<FileInfo>({} as FileInfo);
