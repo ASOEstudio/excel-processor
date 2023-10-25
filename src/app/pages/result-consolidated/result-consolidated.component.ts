@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import {
   AuxiliaryService,
+  DataNf,
   SheetMatch,
+  TipoDoacao,
 } from 'src/app/services/auxiliary.service';
 
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +39,9 @@ export class ResultConsolidatedComponent implements OnDestroy {
       } else {
         this.exploreData(res).then((data) => {
           this.columnsLabel = Object.keys(data.tableData[0]);
+          console.log('headers', this.columnsLabel);
           this.result = data;
+          console.log(data);
           this.loaded = true;
         });
       }
@@ -52,8 +56,17 @@ export class ResultConsolidatedComponent implements OnDestroy {
     this.loaded = false;
     const tableData: TableDataItem[] = this.copyJSON(data).map((cad) => {
       const sumValues = cad.dataNf.reduce((acc, nota) => acc + nota.credito, 0);
+      const filterCadastro = this.filterTipoDoacao(cad.dataNf, 'CADASTRO');
+      const filterDoacao = this.filterTipoDoacao(cad.dataNf, 'DOACAO');
+      const filterDoacaoAuto = this.filterTipoDoacao(
+        cad.dataNf,
+        'DOACAO_AUTOMATICA'
+      );
       return {
         cpf: cad.cpf,
+        filterDoacaoAuto,
+        filterCadastro,
+        filterDoacao,
         sumValues,
         cashback: (sumValues * this.cashbackFee) / 100,
       };
@@ -92,14 +105,25 @@ export class ResultConsolidatedComponent implements OnDestroy {
     }
   }
 
-  replace(event: KeyboardEvent) {
+  replace(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
     input.value && +input.value > 100 && (input.value = '100');
+  }
+
+  filterTipoDoacao(data: DataNf[], type: TipoDoacao): number {
+    return data.reduce(
+      (acc, { tipoDoacao, credito }) =>
+        tipoDoacao === type ? acc + credito : acc,
+      0
+    );
   }
 }
 
 interface TableDataItem {
   cpf: string;
+  filterCadastro: number;
+  filterDoacao: number;
+  filterDoacaoAuto: number;
   sumValues: number;
   cashback: number;
 }

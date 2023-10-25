@@ -33,7 +33,9 @@ export class ResultProcessComponent implements OnDestroy {
       if (!res[0]) {
         this.router.navigate(['/']);
       } else {
-        this.columnsLabel = Object.keys(res[0].dataNf[0]);
+        this.columnsLabel = Object.keys(res[0].dataNf[0]).filter(
+          (item) => item !== 'tipoDoacao'
+        );
         this.exploreData(res).then((data) => {
           this.loaded = true;
           this.result = data;

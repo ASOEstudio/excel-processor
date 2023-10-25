@@ -83,6 +83,30 @@
             {{ element.cpf }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="filterCadastro">
+          <th mat-header-cell *matHeaderCellDef class="ep-text-align-right">
+            Valor Tipo Doação: <br /> CADASTRO
+          </th>
+          <td mat-cell *matCellDef="let element" class="ep-text-align-right">
+            {{ element.filterCadastro | currency : "BRL" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="filterDoacao">
+          <th mat-header-cell *matHeaderCellDef class="ep-text-align-right">
+            Valor Tipo Doação: <br /> DOACAO
+          </th>
+          <td mat-cell *matCellDef="let element" class="ep-text-align-right">
+            {{ element.filterDoacao | currency : "BRL" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="filterDoacaoAuto">
+          <th mat-header-cell *matHeaderCellDef class="ep-text-align-right">
+            Valor Tipo Doação: <br /> DOACAO_AUTOMATICA
+          </th>
+          <td mat-cell *matCellDef="let element" class="ep-text-align-right">
+            {{ element.filterDoacaoAuto | currency : "BRL" }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="sumValues">
           <th mat-header-cell *matHeaderCellDef class="ep-text-align-right">
             Soma Valor Notas
