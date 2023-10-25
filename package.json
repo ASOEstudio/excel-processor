@@ -1,6 +1,6 @@
 {
   "name": "excel-processor",
-  "version": "0.12.2",
+  "version": "0.14.1",
   "main": "main.js",
   "description": "Spreadsheet Processor",
   "author": "ASO Estúdio",
