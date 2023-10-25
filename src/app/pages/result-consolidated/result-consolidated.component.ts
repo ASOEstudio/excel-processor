@@ -39,9 +39,7 @@ export class ResultConsolidatedComponent implements OnDestroy {
       } else {
         this.exploreData(res).then((data) => {
           this.columnsLabel = Object.keys(data.tableData[0]);
-          console.log('headers', this.columnsLabel);
           this.result = data;
-          console.log(data);
           this.loaded = true;
         });
       }

@@ -298,7 +298,6 @@ export class AuxiliaryService {
     this.addLogLine('termina processamento das planilhas');
     this.sortCpf();
     this.liberadosTotal();
-    console.log('auxiliary', this.notasCpf);
     this.subjResult.next(this.notasCpf);
     this.addLogLine('redireciona para os resultados');
     this.router.navigate(['/result-process']);
