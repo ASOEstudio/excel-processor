@@ -7,9 +7,7 @@ import { Router } from '@angular/router';
 import { ExploreResult } from '../pages/result-process/result-process.component';
 import { ExploreResultConsolidated } from '../pages/result-consolidated/result-consolidated.component';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuxiliaryService {
   // cadastradores
   public cadastradores$: Observable<FileInfo>;
@@ -32,6 +30,7 @@ export class AuxiliaryService {
   iEmitente: number;
   iCpf: number;
   iNumNota: number;
+  iTipoDoacao: number;
   iCnpjEstab: number;
 
   protected filesRead: RequiredFiles = {
@@ -41,6 +40,8 @@ export class AuxiliaryService {
   protected cadastradoresData: any[][];
   protected liberadosData: any[][];
   protected notasCpf: SheetMatch[] = [];
+
+  copyJSON = <T>(data: T): T => JSON.parse(JSON.stringify(data)) as T;
 
   constructor(private snackBar: MatSnackBar, private router: Router) {
     this.subjCadastradores = new BehaviorSubject<FileInfo>({} as FileInfo);
@@ -54,11 +55,11 @@ export class AuxiliaryService {
     // determina se os arquivos necessários já foram carregados
     this.cadastradores$.subscribe((res) => {
       this.cadastradoresData = res.sheet;
-      this.filesRead.cadastradores = res.fileInfo?.name ? true : false;
+      this.filesRead.cadastradores = !!res.fileInfo?.name;
     });
     this.liberados$.subscribe((res) => {
       this.liberadosData = res.sheet;
-      this.filesRead.liberados = res.fileInfo?.name ? true : false;
+      this.filesRead.liberados = !!res.fileInfo?.name;
     });
   }
 
@@ -233,6 +234,10 @@ export class AuxiliaryService {
     this.iCpf = this.cadastradoresData[0].indexOf('CPF Doador/Cadastrador');
     this.iNumNota = this.cadastradoresData[0].indexOf('Número da Nota');
     this.iCnpjEstab = this.cadastradoresData[0].indexOf('CNPJ Estabelecimento');
+    this.iTipoDoacao =
+      this.cadastradoresData[0].indexOf('Tipo da Doação') !== -1
+        ? this.cadastradoresData[0].indexOf('Tipo da Doação')
+        : this.cadastradoresData[0].indexOf('Tipo do Pedido');
 
     this.matchSheets();
   }
@@ -258,17 +263,16 @@ export class AuxiliaryService {
           if (!this.notasCpf.find((line) => line.cpf === cpfCollected)) {
             this.notasCpf.push({ cpf: cpfCollected, dataNf: [] });
           }
-          this.notasCpf.forEach((item) => {
-            if (item.cpf === cpfCollected) {
-              item.dataNf.push({
-                numNota: cadLin[this.iNumNota],
-                cnpjEstab: cadLin[this.iCnpjEstab],
-                emitente: libLin[this.iEmitente],
-                sitCred: libLin[this.iSitCred],
-                credito: libLin[this.iCreditos],
-              });
-            }
-          });
+          this.notasCpf
+            .find((line) => line.cpf === cpfCollected)
+            .dataNf.push({
+              numNota: cadLin[this.iNumNota],
+              cnpjEstab: cadLin[this.iCnpjEstab],
+              emitente: libLin[this.iEmitente],
+              sitCred: libLin[this.iSitCred],
+              credito: libLin[this.iCreditos],
+              tipoDoacao: cadLin[this.iTipoDoacao],
+            });
         } else {
           this.addLogLine(
             `número da nota: "${cadLin[this.iNumNota]}" e CNPJ: "${
@@ -278,17 +282,16 @@ export class AuxiliaryService {
           if (!this.notasCpf.find((line) => line.cpf === 'não relacionadas')) {
             this.notasCpf.push({ cpf: 'não relacionadas', dataNf: [] });
           }
-          this.notasCpf.forEach((item) => {
-            if (item.cpf === 'não relacionadas') {
-              item.dataNf.push({
-                numNota: cadLin[this.iNumNota],
-                cnpjEstab: cadLin[this.iCnpjEstab],
-                emitente: 'não encontrado',
-                sitCred: 'não encontrado',
-                credito: 0,
-              });
-            }
-          });
+          this.notasCpf
+            .find((line) => line.cpf === 'não relacionadas')
+            .dataNf.push({
+              numNota: cadLin[this.iNumNota],
+              cnpjEstab: cadLin[this.iCnpjEstab],
+              emitente: 'não encontrado',
+              sitCred: 'não encontrado',
+              credito: 0,
+              tipoDoacao: cadLin[this.iTipoDoacao],
+            });
         }
       }
     });
@@ -369,7 +372,14 @@ export class AuxiliaryService {
     const aoaData: string[][] = tableData.tableData.map((line) =>
       Object.values(line)
     );
-    aoaData.unshift(['CPF', 'Valor', 'CashBack']);
+    aoaData.unshift([
+      'CPF',
+      'Tipo Doação: DOACAO_AUTOMATICA',
+      'Tipo Doação: CADASTRO',
+      'Tipo Doação: DOACAO',
+      'Valor',
+      'CashBack',
+    ]);
     this.exportFile(aoaData, 'consolidado', 'valores_consolidados.xlsx');
   }
 
@@ -398,6 +408,7 @@ export const requiredHeaders = {
   'Data do Pedido': false,
   'Status do Pedido': false,
   'Tipo do Pedido': false,
+  'Tipo da Doação': false,
   'CNPJ Estabelecimento': false,
 
   'CNPJ emit.': false,
@@ -435,4 +446,7 @@ export interface DataNf {
   credito?: number;
   sitCred?: string;
   emitente?: string;
+  tipoDoacao?: TipoDoacao;
 }
+
+export type TipoDoacao = 'CADASTRO' | 'DOACAO_AUTOMATICA' | 'DOACAO';
